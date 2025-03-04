@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_test_utils.c                                   :+:      :+:    :+:   */
+/*   fdf_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 16:15:59 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/23 12:28:04 by fvon-de          ###   ########.fr       */
+/*   Created: 2025/03/04 11:00:37 by fvon-de           #+#    #+#             */
+/*   Updated: 2025/03/04 12:53:18 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
 
 int	print_map(int **map)
 {
@@ -26,7 +27,8 @@ int	print_map(int **map)
 			ft_printf("%d ", map[i][j]);
 			j++;
 		}
-		write(1, "\n", sizeof(char));
+		if (write(1, "\n", sizeof(char)) == -1)
+			log_error("Error: [print_map] Error writing to standard output");
 		i++;
 	}
 	return (EXIT_SUCCESS);
@@ -47,3 +49,4 @@ int	log_error(const char *message)
 	fclose(file);
 	return (EXIT_SUCCESS);
 }
+
