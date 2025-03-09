@@ -6,13 +6,12 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 07:19:23 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/09 07:19:25 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/03/09 07:37:28 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	setup_hooks(t_fdf *fdf);
 static int	run_fdf(t_fdf *fdf);
 static int	init_fdf(t_fdf *fdf, char *filename);
 
