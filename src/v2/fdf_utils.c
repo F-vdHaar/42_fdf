@@ -5,48 +5,60 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/04 11:00:37 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/04 12:53:18 by fvon-de          ###   ########.fr       */
+/*   Created: 2025/03/08 11:33:33 by fvon-de           #+#    #+#             */
+/*   Updated: 2025/03/08 18:25:39 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-
-int	print_map(int **map)
+int	valid_filename(const char *filename)
 {
-	int	i;
-	int	j;
+	int	len;
+
+	len = ft_strlen(filename);
+	if (len < 5)
+		return (0);
+	filename += len - 4;
+	return (ft_strncmp(filename, ".fdf", 4) == 0);
+}
+
+void	make_upper(unsigned int i, char *c)
+{
+	i++;
+	*c = ft_toupper(*c);
+}
+
+void	draw_reset(mlx_image_t *image)
+{
+	uint32_t	i;
+	uint32_t	j;
 
 	i = 0;
-	while (map[i] != NULL)
+	while (i < image->height)
 	{
 		j = 0;
-		while (map[i][j] != -1)
+		while (j < image->width)
 		{
-			ft_printf("%d ", map[i][j]);
+			mlx_put_pixel(image, j, i, BACKGROUND);
 			j++;
 		}
-		if (write(1, "\n", sizeof(char)) == -1)
-			log_error("Error: [print_map] Error writing to standard output");
 		i++;
 	}
-	return (EXIT_SUCCESS);
 }
 
-//    ft_printf(file, "%s\n", message);
-int	log_error(const char *message)
+void cleanup(t_fdf *fdf)
 {
-	FILE	*file;
-
-	file = fopen("error.log", "a");
-	if (file == NULL)
+	if (fdf)
 	{
-		ft_printf("Could not open error.log for writing\n");
-		return (EXIT_FAILURE);
+		if (fdf->map)
+		{
+			free_map(fdf->map);
+		}		
+		if (fdf->mlx)
+		{
+			mlx_terminate(fdf->mlx);
+		}
+		free(fdf);
 	}
-	ft_printf("%s\n", message);
-	fclose(file);
-	return (EXIT_SUCCESS);
 }
-
