@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 07:19:36 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/09 07:19:38 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/03/09 08:00:17 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,10 +154,18 @@ void	get_dimensions(int fd, t_map *map)
 
 	line = get_next_line(fd);
 	if (!line)
-		error_map(fd, map, MALLOC);
+    {
+        close(fd);
+        free_map(map);
+        log_error("[get_dimension] gnl failed");
+    }
 	map->cols = get_cols(fd, map, line);
 	if (map->cols == 0)
-		error_map(fd, map, INVALID_MAP);
+    {
+        close(fd);
+        free_map(map);
+        log_error("[get_dimension] get_cols failed");
+    }
 	map->rows = 1;
 	while (1)
 	{
@@ -166,6 +174,11 @@ void	get_dimensions(int fd, t_map *map)
 			break ;
 		map->rows++;
 		if (map->cols != get_cols(fd, map, line))
-			error_map(fd, map, INVALID_MAP);
+        {
+            close(fd);
+            free_map(map);
+            log_error("[get_dimension] get_cols failed");
+        }
+		
 	}
 }

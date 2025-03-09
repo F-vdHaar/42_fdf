@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 07:19:23 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/09 07:37:28 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/03/09 07:55:16 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	malloc_grid(t_map *map)
 	if (!(map->grid) || !(map->grid_virt))
 	{
 		free_map(map);
-		handle_error(MALLOC);
+		log_error("[malloc_grid] Allocation failed");
 	}
 	i = -1;
 	while (++i < map->rows)
@@ -39,8 +39,7 @@ static void	malloc_grid(t_map *map)
 				map->grid[i + 1] = NULL;
 			}
 			free_map(map);
-			handle_error(MALLOC);
-		}
+			log_error("[malloc_grid] Row Allocation failed");		}
 	}
 }
 
@@ -51,12 +50,12 @@ static t_map	*parse_input(char *filename)
 
 	fd = open(filename, O_RDONLY, 0777);
 	if (fd == -1)
-		handle_error(FILE_ERROR);
+		log_error("[parse_inout] Can't open file");	
 	map = malloc(sizeof(t_map));
 	if (!map)
 	{
 		close(fd);
-		handle_error(MALLOC);
+		log_error("[parse_inout] Allocate Map failed");	
 	}
 	init_map(map);
 	get_dimensions(fd, map);
