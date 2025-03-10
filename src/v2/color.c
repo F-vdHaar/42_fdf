@@ -1,92 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_color.c                                        :+:      :+:    :+:   */
+/*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 13:33:25 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/08 13:46:09 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/03/10 07:23:13 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "fdf.h"
 
-static int	radiant(int start, int end, double percentage)
+int	i_color(int color1, int color2, double t)
 {
-	return ((int)((1 - percentage) * start + percentage * end));
-}
+	int	r;
+	int	g;
+	int	b;
 
-static double	percent(int start, int end, int current)
-{
-	double	placement;
-	double	distance;
-
-	placement = current - start;
-	distance = end - start;
-	if (distance == 0)
-		return (1.0);
-	return (placement / distance);
+	r = (int)((1 - t) * ((color1 >> 16) & 0xFF) + t * ((color2 >> 16) & 0xFF));
+	g = (int)((1 - t) * ((color1 >> 8) & 0xFF) + t * ((color2 >> 8) & 0xFF));
+	b = (int)((1 - t) * (color1 & 0xFF) + t * (color2 & 0xFF));
+	return ((r << 16) | (g << 8) | b);
 }
 
 int	get_color(t_point current, t_point a, t_point b)
 {
-	int		red;
-	int		green;
-	int		blue;
-	double	percentage;
+	double	t;
+	int		dx;
+	int		dy;
 
 	if (a.col == b.col)
 		return (a.col);
-	if (abs(b.x - a.x) > abs(b.y - a.y))
-		percentage = percent(a.x, b.x, current.x);
+	dx = abs(b.x - a.x);
+	dy = abs(b.y - a.y);
+	if (dx > dy)
+		t = (double)(current.x - a.x) / (b.x - a.x);
 	else
-		percentage = percent(a.y, b.y, current.y);
-	red = radiant((a.col >> 24) & 0xFF, (b.col >> 24) & 0xFF, percentage);
-	green = radiant((a.col >> 16) & 0xFF, (b.col >> 16) & 0xFF, percentage);
-	blue = radiant((a.col >> 8) & 0xFF, (b.col >> 8) & 0xFF, percentage);
-	return ((red << 24) | (green << 16) | blue << 8 | 0xFF);
-}
-
-static int	zcolor(double perc)
-{
-	if (perc < 0.1)
-		return (COLOR_ONE);
-	else if (perc < 0.2)
-		return (COLOR_TWO);
-	else if (perc < 0.3)
-		return (COLOR_THREE);
-	else if (perc < 0.4)
-		return (COLOR_FOUR);
-	else if (perc < 0.5)
-		return (COLOR_FIVE);
-	else if (perc < 0.6)
-		return (COLOR_SIX);
-	else if (perc < 0.7)
-		return (COLOR_SEVEN);
-	else if (perc < 0.8)
-		return (COLOR_EIGHT);
-	else if (perc < 0.9)
-		return (COLOR_NINE);
-	else
-		return (COLOR_TEN); 
-}
-
-void	set_zcolor(t_map *map)
-{
-	int		i;
-	int		j;
-	double	perc;
-
-	i = -1;
-	while (++i < map->rows)
-	{
-		j = -1;
-		while (++j < map->cols)
-		{
-			perc = percent(map->low, map->high, map->grid_virt[i][j].z);
-			map->grid_virt[i][j].zcolor = zcolor(perc);
-		}
-	}
+		t = (double)(current.y - a.y) / (b.y - a.y);
+	return (i_color(a.col, b.col, t));
 }

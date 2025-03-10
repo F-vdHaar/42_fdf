@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 07:49:41 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/09 07:49:44 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/03/10 08:33:12 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	bresenham(mlx_image_t *image, t_point a, t_point b)
 {
 	int			error[2];
-	t_point	cur;
+	t_point		cur;
 
 	cur.x = a.x;
 	cur.y = a.y;
@@ -48,21 +48,18 @@ void	project(t_map *map, int i, int j)
 
 	previous = &(map->grid_virt[i][j]);
 	new = &(map->grid[i][j]);
-	temp.x = previous->x;
-	temp.y = previous->y;
-	temp.z = previous->z * map->zscale;
-	rotate_z(&temp.x, &temp.y, map->zrotate);
-	rotate_x(&temp.y, &temp.z, map->xrotate);
-	rotate_y(&temp.x, &temp.z, map->yrotate);
+	temp.x = previous->x * map->scale_x;
+	temp.y = previous->y * map->scale_y;
+	temp.z = previous->z * map->scale_z;
+	rotate_z(&temp.x, &temp.y, map->rot_z);
+	rotate_x(&temp.y, &temp.z, map->rot_x);
+	rotate_y(&temp.x, &temp.z, map->rot_y);
 	new->x = (int)((temp.x * map->zoom - temp.y * map->zoom)
 			* cos(map->alpha) + map->x_offset);
 	new->y = (int)(-temp.z * map->zoom
 			+ (temp.x * map->zoom + temp.y * map->zoom)
 			* sin(map->beta) + map->y_offset);
-	if (map->use_zcolor)
-		new->col = previous->zcolor;
-	else
-		new->col = previous->mapcolor;
+	new->col = previous->col;
 }
 
 static void	draw_line(t_fdf *fdf, int x, int y)

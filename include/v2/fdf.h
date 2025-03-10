@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 11:05:29 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/09 07:36:04 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/03/10 10:39:24 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,41 +19,26 @@
 # include <errno.h>
 # include <stdio.h>
 # include <string.h>
-# include "../../lib/MLX42/include/MLX42/MLX42.h"
-# include "../../lib/lib42/libft/include/libft.h"
-# include "../../lib/lib42/gnl/include/get_next_line.h"
-# include "../../lib/lib42/ft_printf/include/ft_printf.h"
+# include "MLX42.h"
+# include "libft.h"
+# include "get_next_line.h"
+# include "ft_printf.h"
 
-# define WIDTH				1920
-# define HEIGHT				1080
-# define TEXT_COLOR			0xEAEAEAFF
-# define BACKGROUND			0x22222200
-# define MENU_BACKGROUND	0x1E1E1EFF
-# define COLOR_TEN			0x9e0142ff
-# define COLOR_NINE			0xd53e4fff
-# define COLOR_EIGHT		0xf46d43ff
-# define COLOR_SEVEN		0xfdae61ff
-# define COLOR_SIX			0xfee08bff
-# define COLOR_FIVE			0xe6f598ff
-# define COLOR_FOUR			0xabdda4ff
-# define COLOR_THREE		0x66c2a5ff
-# define COLOR_TWO			0x3288bdff
-# define COLOR_ONE			0x5e4fa2ff
-# define FORMAT				"Format:\n\t./fdf maps/filename.fdf"
-# define MALLOC				"Malloc failed"
-# define INVALID_MAP		"Map is invalid"
-# define FILE_ERROR			"Unable to open file"
+# define WIDTH				800
+# define HEIGHT				600
+# define ROT_ANGLE			5
+# define ZOOM_STEP			1.1
+# define SCALE_STEP			1.1
 
-typedef struct s_point3d
+typedef struct s_point_virt
 {
 	double	x;
 	double	y;
 	double	z;
-	int		mapcolor;
-	int		zcolor;
+	int		col;
 }				t_point_virt;
 
-typedef struct s_point2d
+typedef struct s_point
 {
 	int		x;
 	int		y;
@@ -67,17 +52,18 @@ typedef struct s_map
 	int				cols;
 	int				high;
 	int				low;
-	bool			use_zcolor;
 	double			x_offset;
 	double			y_offset;
 	double			interval;
 	double			alpha;
 	double			beta;
-	double			xrotate;
-	double			yrotate;
-	double			zrotate;
+	double			rot_x;
+	double			rot_y;
+	double			rot_z;
 	double			zoom;
-	double			zscale;
+	double			scale_x;
+	double			scale_y;
+	double			scale_z;
 	t_point_virt	**grid_virt;
 	t_point		**grid;
 }					t_map;
@@ -123,6 +109,8 @@ void		key_hook_std(void *param);
 void		fdf_scrollhook(double xdelta, double ydelta, void *param);
 void		rotate_hook(void *param);
 void		view_hook(void *param);
+// hooks add
+void		resize_hook(int32_t width, int32_t height, void *param);
 /* fdf_utils.c*/
 void		make_upper(unsigned int i, char *c);
 void		draw_reset(mlx_image_t *image);

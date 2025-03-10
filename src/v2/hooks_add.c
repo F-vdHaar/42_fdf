@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hooks.c                                            :+:      :+:    :+:   */
+/*   hooks_add.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 07:29:01 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/10 11:11:16 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/03/10 11:10:59 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,6 @@ void	setup_hooks(t_fdf *fdf)
 	mlx_loop_hook(fdf->mlx, &draw_image, fdf);
 }
 
-
-
-static void	reset_map(t_map *map)
-{
-	map->beta = 0.463;
-	map->alpha = map->beta / 2;
-	map->rot_x = 0;
-	map->rot_y = 0;
-	map->rot_z = 0;
-	map->x_offset = WIDTH / 2;
-	map->y_offset = HEIGHT / 2;
-	map->zoom = 1;
-	map->scale_x = 1;
-	map->scale_y = 1;
-	map->scale_z = 1;
-}
 
 void	key_hook_std(void *param)
 {
@@ -92,7 +76,7 @@ void	rotate_hook(void *param)
 	else if (mlx_is_key_down(fdf->mlx, MLX_KEY_PERIOD))
 		sign = 1;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_Q))
-		fdf->map->alpha += sign * 0.03;
+		fdf->map->alpha += sign * 0.03; 
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_W))
 		fdf->map->beta += sign * 0.03;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_S))

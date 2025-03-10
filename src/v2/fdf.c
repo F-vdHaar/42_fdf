@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 07:19:23 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/09 07:55:16 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/03/10 10:43:27 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static int	init_fdf(t_fdf *fdf, char *filename);
 
 static void	malloc_grid(t_map *map)
 {
+	
 	int	i;
 
 	map->grid_virt = malloc(sizeof(t_point_virt *) * map->rows);
@@ -50,12 +51,12 @@ static t_map	*parse_input(char *filename)
 
 	fd = open(filename, O_RDONLY, 0777);
 	if (fd == -1)
-		log_error("[parse_inout] Can't open file");	
+		log_error("[parse_inout] Can't open file");
 	map = malloc(sizeof(t_map));
 	if (!map)
 	{
 		close(fd);
-		log_error("[parse_inout] Allocate Map failed");	
+		log_error("[parse_inout] Allocate Map failed");
 	}
 	init_map(map);
 	get_dimensions(fd, map);
@@ -66,7 +67,6 @@ static t_map	*parse_input(char *filename)
 	fd = open(filename, O_RDONLY, 0777);
 	parse_map(fd, map);
 	close(fd);
-	set_zcolor(map);
 	return (map);
 }
 

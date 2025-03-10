@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 11:18:43 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/09 07:16:12 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/03/10 08:32:24 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,15 @@ void	init_map(t_map *map)
 	ft_printf("DEGUB : [init map]\n");
 	map->beta = 0.464;
 	map->alpha = map->beta / 2;
-	map->xrotate = 0;
-	map->yrotate = 0;
-	map->zrotate = 0;
+	map->rot_x = 0;
+	map->rot_y = 0;
+	map->rot_z = 0;
 	map->x_offset = WIDTH / 2;
 	map->y_offset = HEIGHT / 2;
 	map->zoom = 1;
-	map->zscale = 1;
-	map->use_zcolor = false;
+	map->scale_z = 1;
+	map->scale_x = 1;
+	map->scale_y = 1;
 	map->high = INT_MIN;
 	map->low = INT_MAX;
 	map->rows = 0;
@@ -88,6 +89,5 @@ t_map	*get_map(t_map *map, char *filename)
 	malloc_grid(map);
 	parse_map(fd, map);
 	close(fd);
-	set_zcolor(map);
 	return (map);
 }
