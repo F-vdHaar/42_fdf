@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 07:19:23 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/10 10:43:27 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/03/12 13:44:48 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static int	init_fdf(t_fdf *fdf, char *filename);
 
 static void	malloc_grid(t_map *map)
 {
-	
 	int	i;
 
 	map->grid_virt = malloc(sizeof(t_point_virt *) * map->rows);
@@ -40,7 +39,8 @@ static void	malloc_grid(t_map *map)
 				map->grid[i + 1] = NULL;
 			}
 			free_map(map);
-			log_error("[malloc_grid] Row Allocation failed");		}
+			log_error("[malloc_grid] Row Allocation failed");
+		}
 	}
 }
 
@@ -70,22 +70,24 @@ static t_map	*parse_input(char *filename)
 	return (map);
 }
 
-
 int	main(int argc, char **argv)
 {
 	t_fdf	*fdf;
-	
-	if (argc != 2) {
+
+	if (argc != 2)
+	{
 		ft_printf("Usage: %s <map_file>\n", argv[0]);
 		return (EXIT_FAILURE);
 	}
 	fdf = malloc(sizeof(t_fdf));
-	if (!fdf) {
+	if (!fdf)
+	{
 		log_error("Error: [main] Failed to allocate memory for renderer");
 		return (EXIT_FAILURE);
 	}
 	memset(fdf, 0, sizeof(t_fdf));
-	if (init_fdf(fdf, argv[1]) != EXIT_SUCCESS) {
+	if (init_fdf(fdf, argv[1]) != EXIT_SUCCESS)
+	{
 		log_error("Error: [main] Failed to init fdf");
 		cleanup(fdf);
 		return (EXIT_FAILURE);
@@ -94,22 +96,26 @@ int	main(int argc, char **argv)
 	cleanup(fdf);
 	return (EXIT_SUCCESS);
 }
-static int	init_fdf(t_fdf *fdf, char *filename) {
+
+static int	init_fdf(t_fdf *fdf, char *filename)
+{
 	fdf->map = parse_input(filename);
-	if (!fdf->map) {
+	if (!fdf->map)
+	{
 		log_error("Error: [init_fdf] parse_input failed");
 		return (EXIT_FAILURE);
 	}
-	ft_printf("DEBUG: [init_fdf] 1 FULL SUCCESS\n");
 	fdf->mlx = mlx_init(WIDTH, HEIGHT, "FdF", true);
-	if (!fdf->mlx) {
+	if (!fdf->mlx)
+	{
 		cleanup(fdf);
 		log_error("Error: [init_fdf] mlx init");
 		log_error(mlx_strerror(mlx_errno));
 		return (EXIT_FAILURE);
 	}
 	fdf->image = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
-	if (!fdf->image) {
+	if (!fdf->image)
+	{
 		cleanup(fdf);
 		mlx_close_window(fdf->mlx);
 		log_error("Error: [init_fdf] image  init");
@@ -119,7 +125,6 @@ static int	init_fdf(t_fdf *fdf, char *filename) {
 	ft_printf("DEBUG: [init_fdf] FULL SUCCESS\n");
 	return (EXIT_SUCCESS);
 }
-
 
 static int	run_fdf(t_fdf *fdf)
 {
@@ -136,5 +141,3 @@ static int	run_fdf(t_fdf *fdf)
 	mlx_loop(fdf->mlx);
 	return (EXIT_SUCCESS);
 }
-
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 11:33:33 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/10 07:43:53 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/03/12 13:30:27 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,44 +31,30 @@ void	ft_free_tab(void **tab, size_t len)
 	free(tab);
 }
 
-void	free_map(t_map *map)
+void	free_grid(char **grid, int rows)
 {
-	int i;
-	if (map == NULL)
-		return ;
-	if (map->grid_virt != NULL)
+	int	i;
+
+	if (grid)
 	{
 		i = 0;
-		while (i < map->rows)
+		while (i < rows)
 		{
-			if (map->grid_virt[i] != NULL)
-				free(map->grid_virt[i]);
+			if (grid[i])
+				free(grid[i]);
 			i++;
 		}
-		free(map->grid_virt);
+		free(grid);
 	}
-	if (map->grid != NULL)
-	{
-		i = 0;
-		while (i < map->rows)
-		{
-			if (map->grid[i] != NULL)
-				free(map->grid[i]);
-			i++;
-		}
-		free(map->grid);
-	}
-	free(map);
 }
 
-void	draw_reset(mlx_image_t *image)
+void	free_map(t_map *map)
 {
-	size_t	image_size;
-
-	if (image == NULL)
+	if (!map)
 		return ;
-	image_size = image->width * image->height * 4;
-	memset(image->pixels, 0, image_size);
+	free_grid(map->grid_virt, map->rows);
+	free_grid(map->grid, map->rows);
+	free(map);
 }
 
 void	cleanup(t_fdf *fdf)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 11:18:43 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/10 08:32:24 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/03/12 12:54:06 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_map(t_map *map)
 	map->rot_x = 0;
 	map->rot_y = 0;
 	map->rot_z = 0;
-	map->x_offset = WIDTH / 2;
+	map->x_offset = 2 * (WIDTH / 3);
 	map->y_offset = HEIGHT / 2;
 	map->zoom = 1;
 	map->scale_z = 1;
@@ -33,7 +33,6 @@ void	init_map(t_map *map)
 	map->grid = NULL;
 	map->grid_virt = NULL;
 }
-
 
 static void	malloc_grid(t_map *map)
 {
@@ -77,7 +76,8 @@ t_map	*get_map(t_map *map, char *filename)
 		return (NULL);
 	}
 	get_dimensions(fd, map);
-	ft_printf("DEBUG: [get_map] Dimensions: Rows=%d, Cols=%d\n", map->rows, map->cols);
+	ft_printf("DEBUG: [get_map] Dimensions: Rows=%d, Cols=%d\n",
+		map->rows, map->cols);
 	close(fd);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
