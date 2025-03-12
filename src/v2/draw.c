@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 07:49:41 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/10 08:33:12 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/03/12 13:45:19 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	project(t_map *map, int i, int j)
 {
 	t_point_virt	*previous;
 	t_point_virt	temp;
-	t_point	*new;
+	t_point			*new;
 
 	previous = &(map->grid_virt[i][j]);
 	new = &(map->grid[i][j]);
@@ -98,21 +98,12 @@ void	draw_image(void *param)
 	}
 }
 
-void	display_menu(mlx_t *mlx)
+void	draw_reset(mlx_image_t *image)
 {
-	int		x;
-	int		y;
+	size_t	image_size;
 
-	x = 20;
-	y = 50;
-	mlx_put_string(mlx, "Menu", x, y);
-	mlx_put_string(mlx, "Translate\t\t\t\tarrow keys", x, y += 20);
-	mlx_put_string(mlx, "Rotate x\t\t\t\t\ta, d", x, y += 20);
-	mlx_put_string(mlx, "Rotate y\t\t\t\t\tw, s", x, y += 20);
-	mlx_put_string(mlx, "Rotate z\t\t\t\t\tq, e", x, y += 20);
-	mlx_put_string(mlx, "PROJECTION", x, y += 30);
-	mlx_put_string(mlx, "Isometric\t\t\t\t1", x, y += 20);
-	mlx_put_string(mlx, "Dimetric\t\t\t\t\t2", x, y += 20);
-	mlx_put_string(mlx, "Trimetric\t\t\t\t3", x, y += 20);
-	mlx_put_string(mlx, "RESET\t\t\t\t\t\t\t\tSpace", x, y += 30);
+	if (image == NULL)
+		return ;
+	image_size = image->width * image->height * 4;
+	memset(image->pixels, 0, image_size);
 }
