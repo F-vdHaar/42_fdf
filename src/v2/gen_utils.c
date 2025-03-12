@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 18:22:39 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/08 18:24:44 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/03/12 13:27:44 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,17 @@ int	ft_min(int a, int b)
 	return (b);
 }
 
-void log_error(const char *message)
+void	log_error(const char *message)
 {
-    // Print the error message to the terminal
-    ft_printf("Error: %s\n", message);
+	int	fd;
 
-    // Open the log file (append mode)
-    int fd = open("error_log.txt", O_WRONLY | O_APPEND | O_CREAT, 0644);
-    if (fd == -1)
-    {
-        ft_printf("Error: Failed to open log file\n");
-        return;
-    }
-
-    // Write the error message to the log file
-    ft_printf("Error: %s\n", message);  // Using ft_printf to write to file
-    close(fd);
+	ft_printf("Error: %s\n", message);
+	fd = open("error_log.txt", O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (fd == -1)
+	{
+		ft_printf("Error: Failed to open log file\n");
+		return ;
+	}
+	ft_printf("Error: %s\n", message);
+	close(fd);
 }
-
