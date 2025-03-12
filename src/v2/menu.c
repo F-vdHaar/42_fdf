@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 11:35:15 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/12 12:53:15 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/03/12 14:05:23 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,23 @@ void	display_menu(mlx_t *mlx)
 	y = 50;
 	x = 20;
 	display_controls_menu(mlx, x, y);
+}
+
+// Display current values in terminal
+void	display_current_values_terminal(t_fdf *fdf)
+{
+	ft_printf("\nCurrent Values:\n");
+	ft_printf("----------------------------\n");
+	ft_printf("Rotation X:   %.1f\n", fdf->map->rot_x);
+	ft_printf("Rotation Y:   %.1f\n", fdf->map->rot_y);
+	ft_printf("Rotation Z:   %.1f\n", fdf->map->rot_z);
+	ft_printf("----------------------------\n");
+	ft_printf("Scale X:      %.1f\n", fdf->map->scale_x);
+	ft_printf("Scale Y:      %.1f\n", fdf->map->scale_y);
+	ft_printf("Scale Z:      %.1f\n", fdf->map->scale_z);
+	ft_printf("----------------------------\n");
+	ft_printf("Zoom:         %.1f\n", fdf->map->zoom);
+	ft_printf("X Offset:     %.1f\n", fdf->map->x_offset);
+	ft_printf("Y Offset:     %.1f\n", fdf->map->y_offset);
+	ft_printf("----------------------------\n");
 }
