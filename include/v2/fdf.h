@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 11:05:29 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/03/12 14:00:16 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/03/12 18:07:55 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_map
 	double			scale_y;
 	double			scale_z;
 	t_point_virt	**grid_virt;
-	t_point		**grid;
+	t_point			**grid;
 }					t_map;
 
 typedef struct s_fdf
@@ -75,57 +75,58 @@ typedef struct s_fdf
 	mlx_image_t	*image;
 }				t_fdf;
 
-// **color.c**
-int i_color(int color1, int color2, double t);
-int get_color(t_point current, t_point a, t_point b);
+// draw.c
+void		project(t_map *map, int i, int j);
+void		draw_image(void *param);
+void		draw_reset(mlx_image_t *image);
 
-// **fdf_utils.c**
-void project(t_map *map, int i, int j);
-void make_upper(unsigned int i, char *c);
-void ft_free_tab(void **tab, size_t len);
-void cleanup(t_fdf *fdf);
-int ft_max(int a, int b);
-int ft_min(int a, int b);
-void log_error(const char *message);
+// parse.c
+int			process_line(int fd, t_map *map, int i);
 
-// **gen_utils.c**
-void reset_map(t_map *map);
-void free_grid(char **grid, int rows);
-void free_map(t_map *map);
+// parse_add.c
+int			parse_color(int fd, t_map *map, char *tabj);
+void		free_and_close(int fd, t_map *map, char **tab, char *line);
+void		parse_map(int fd, t_map *map);
+int			get_dimensions(int fd, t_map *map);
 
-// **map.c**
-void init_map(t_map *map);
+// color.c
+int			i_color(int color1, int color2, double t);
+int			get_color(t_point current, t_point a, t_point b);
 
-// **rotate.c**
-void rotate_x(double *y, double *z, double alpha);
-void rotate_y(double *x, double *z, double beta);
-void rotate_z(double *x, double *y, double gamma);
+// hooks.c
+void		reset_map(t_map *map);
+void		key_hook_std(void *param);
+void		setup_hooks(t_fdf *fdf);
+void		resize_hook(int32_t width, int32_t height, void *param);
 
-// **draw.c**
-void draw_image(void *param);
-void draw_reset(mlx_image_t *image);
+// rotate.c
+void		rotate_x(double *y, double *z, double alpha);
+void		rotate_y(double *x, double *z, double beta);
+void		rotate_z(double *x, double *y, double gamma);
 
-// **hooks_add.c**
-void move_hook(t_fdf *fdf);
-void rotate_hook(t_fdf *fdf);
-void stretch_hook(t_fdf *fdf);
-void zoom_hook(t_fdf *fdf);
+// fdf_utils.c
+void		make_upper(unsigned int i, char *c);
+void		ft_free_tab(void **tab, size_t len);
+void		free_grid(void **grid, int rows);
+void		free_map(t_map *map);
+void		cleanup(t_fdf *fdf);
 
-// **menu.c**
-void display_controls_menu(mlx_t *mlx, int x, int y);
-void display_menu(mlx_t *mlx);
+// gen_utils.c
+int			ft_max(int a, int b);
+int			ft_min(int a, int b);
+void		log_error(const char *message);
 
-// **fdf.c**
-int main(int argc, char **argv);
-void setup_hooks(t_fdf *fdf);
-void key_hook_std(void *param);
-void view_hook(void *param);
+// hooks_add.c
+void		move_hook(t_fdf *fdf);
+void		rotate_hook(t_fdf *fdf);
+void		stretch_hook(t_fdf *fdf);
+void		zoom_hook(t_fdf *fdf);
+void		view_hook(void *param);
 
-// **hooks.c**
-void resize_hook(int32_t width, int32_t height, void *param);
+// map.c
+void		init_map(t_map *map);
 
-// **parse.c**
-void parse_map(int fd, t_map *map);
-void get_dimensions(int fd, t_map *map);
+// menu.c
+void		display_menu(mlx_t *mlx);
 
 #endif
